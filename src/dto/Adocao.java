@@ -4,8 +4,8 @@ import java.io.Serializable;
 
 import javax.persistence.*;
 
+import java.util.ArrayList;
 import java.util.Date;
-
 
 /**
  * The persistent class for the adocao database table.
@@ -13,6 +13,7 @@ import java.util.Date;
  */
 @Entity
 @Table(name="adocao")
+@Inheritance(strategy=InheritanceType.JOINED)
 @NamedQuery(name="Adocao.findAll", query="SELECT a FROM Adocao a")
 public class Adocao implements Serializable {
 	private static final long serialVersionUID = 1L;
@@ -29,15 +30,44 @@ public class Adocao implements Serializable {
 	@Column(name="pessoa_id", nullable=false)
 	private int pessoaId;
 
-	@ManyToOne(fetch=FetchType.LAZY)
+	@Column(name="instituicao_id", nullable=false)
+	private int instituicaoId;
+	
+	/*@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="instituicao_id")
-	private Instituicao instituicao;
+	private Instituicao instituicao;*/
+	
+	@Transient
+	private ArrayList<Animal> animais = new ArrayList<Animal>();
+	
+	
+	public void addAnimal(Animal animal){
+		animais.add(animal);
+	}
+	
+	public ArrayList<Animal> getAnimals(){
+		return this.animais;
+	}
+	
 	
 	public Adocao() {
 	}
 
 	public int getId() {
 		return this.id;
+	}
+
+	public int getInstituicaoId() {
+		return instituicaoId;
+	}
+
+	public void setInstituicaoId(int instituicaoId) {
+		this.instituicaoId = instituicaoId;
+	}
+
+	
+	public static long getSerialversionuid() {
+		return serialVersionUID;
 	}
 
 	public void setId(int id) {

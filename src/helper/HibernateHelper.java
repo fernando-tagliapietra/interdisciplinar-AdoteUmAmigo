@@ -25,7 +25,7 @@ public class HibernateHelper<T>{
 		return factory.createEntityManager();
 	}
 	
-	private EntityManager getFactory(){
+	public EntityManager getFactory(){
 		factory = Persistence.createEntityManagerFactory("interdisciplinar");
 		return factory.createEntityManager();
 	}
@@ -44,12 +44,30 @@ public class HibernateHelper<T>{
 	    closeFactory();
 	}
 	
+	
+	protected T executarFind(T obj) throws Exception{
+		
+		EntityManager em =  this.getFactory();
+		em.getTransaction().begin();   
+	    em.persist(obj);
+	    em.getTransaction().commit();
+	    em.close();
+	    closeFactory();
+		return obj;
+	}
+	
 		
 	protected void atualizar(T obj) throws Exception{
 		
 		EntityManager em =  this.getFactory();
+		
+		 
+		
+		
 		em.getTransaction().begin(); 
+		
 		em.merge(obj);
+		
 		em.getTransaction().commit();
 		em.close();
 	}

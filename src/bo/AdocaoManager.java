@@ -1,58 +1,49 @@
-package controller;
+package bo;
+
 import java.time.LocalDate;
-import java.time.Period;
 import java.time.temporal.ChronoUnit;
-import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 
-import javax.ws.rs.Consumes;
-import javax.ws.rs.GET;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
-import javax.ws.rs.QueryParam;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
-
-import dto.Adocao;
-import dto.Animal;
-import dto.Pessoa;
 import model.AdocaoDAO;
 import model.IDAO;
 import model.PessoaDAO;
+import model.UsuarioDAO;
+import controller.AnimalController;
+import dto.Adocao;
+import dto.Animal;
+import dto.Pessoa;
+import dto.Usuario;
 
-@Path("/adocao")
-public class AdocaoController {
+
+
+public class AdocaoManager {
 
 	public static IDAO<Adocao> adocaoDao = new AdocaoDAO();
 	public static PessoaDAO pessoaDao = new PessoaDAO();
+	public static UsuarioDAO usuarioDao = new UsuarioDAO();
 	
-	@GET
-	@Produces(MediaType.APPLICATION_XML)
-	public ArrayList<Adocao> getAdocoes() throws Exception{
-		return adocaoDao.list();
-	}
 	
-	@POST
-	@Path("/save/json")
-	@Consumes(MediaType.APPLICATION_JSON)
-	public Response saveJSON( Adocao adocao ) throws Exception {
-		adocaoDao.save(adocao);
-		return null;
+	public static void addPessoaAndAdocao(String nome_pai1, String nome_pai2, String nome_mae1, String nome_mae2, String telefone, String genero, 
+		String conjugue, String etnia, String religiao, int deficiencia, int usuario_id, String nome_social, 
+		String acesso, String senha, String email, int instituicao_id, int animal_id) throws Exception{
+		
+		Usuario new_usuario = new Usuario(email, acesso, senha);
+		
+		int new_usuario_id = usuarioDao.saveAndFindId(new_usuario);
+		
+		Pessoa new_pessoa =  new Pessoa(nome_pai1, nome_pai2, nome_mae1, nome_mae2, telefone, genero, conjugue,
+				etnia, religiao, deficiencia, new_usuario_id, nome_social);
+		
+		int pessoa_id = pessoaDao.saveAndFindId(new_pessoa);
+		
+		realizarAdocao(pessoa_id, instituicao_id, animal_id);
 	}
-	
-	@POST
-	@Path("/save")
-	public Response save( @QueryParam("pessoa_id") String pessoa_id, @QueryParam("instituicao_id") String instituicao_id) throws Exception {
-		//adocaoDao.save(adocao);
-		return null;
-	}
+		
 	
 	public static void realizarAdocao(int pessoa_id, int instituicao_id, int animal_id ) throws Exception{
-		
+			
 		Pessoa pessoa = pessoaDao.getPessoaById(pessoa_id);
-		
+			
 		Date nasc= pessoa.getDataNascimento();
 		Date now = new Date();
 		

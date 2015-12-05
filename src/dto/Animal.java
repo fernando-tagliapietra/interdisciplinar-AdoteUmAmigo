@@ -35,14 +35,29 @@ public class Animal implements Serializable {
 	@Column(nullable=false, length=40)
 	private String tipo;
 
-	@ManyToOne(fetch=FetchType.LAZY)
+	/*@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="adocao_id")
-	private Adocao adocao;
+	private Adocao adocao;*/
 	
-	public Integer getPessoaAdocao(){
-		return this.adocao.getPessoaId();
+	
+	@Column(name="adocao_id", nullable=true)
+	private int adocaoId;
+	
+	
+	
+	
+	public int getAdocaoId() {
+		return adocaoId;
 	}
-	
+
+	public void setAdocaoId(int adocaoId) {
+		this.adocaoId = adocaoId;
+	}
+
+	public static long getSerialversionuid() {
+		return serialVersionUID;
+	}
+
 	public Animal() {
 	}
 

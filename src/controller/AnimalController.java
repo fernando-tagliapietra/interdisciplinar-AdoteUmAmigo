@@ -12,13 +12,12 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import model.AnimalDAO;
-import model.IDAO;
 import dto.Animal;
 
 
 public class AnimalController {
 
-	public static IDAO<Animal> animalDao = new AnimalDAO();
+	public static AnimalDAO animalDao = new AnimalDAO();
 	
 	@GET
 	@Produces(MediaType.APPLICATION_XML)
@@ -26,30 +25,36 @@ public class AnimalController {
 		return animalDao.list();
 	}
 	
+	
+	
+	
 	@GET
 	@Produces(MediaType.APPLICATION_XML)
 	public ArrayList<Animal> getAnimalsByInstituicao(@QueryParam("cnpj") String cnpj, @QueryParam("nome") String nome) throws Exception{
+		//VALIDACOES
 		return (new AnimalDAO()).listByInstituicao(cnpj, nome);
 	}
+	
+	public static Animal getAnimal(int animal_id) throws Exception{
+		
+		return animalDao.getAnimal(animal_id);
+		
+		
+	}
+	
 	
 	public ArrayList<String> getRacasMaisAdotadaRanking(String tipo){
 		
 		
 		if (tipo.equals(""))
 			new Exception("Tipo vazio ou inválido");
-		
-		
-		
-		
-		
 		return null;
-		
-		
 		
 	}
 	
 	
 	public ArrayList<Animal> getNaoAdotadosByTipo(String tipo) throws Exception{
+		//VALIDACOES
 		return (new AnimalDAO()).listNaoAdotadosByTipo(tipo);
 	}
 	

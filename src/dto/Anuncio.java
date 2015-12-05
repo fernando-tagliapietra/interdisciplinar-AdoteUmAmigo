@@ -27,6 +27,8 @@ public class Anuncio implements Serializable {
 
 	public Anuncio() {
 	}
+	
+	
 
 	public int getId() {
 		return this.id;

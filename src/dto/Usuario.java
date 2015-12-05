@@ -28,7 +28,28 @@ public class Usuario implements Serializable {
 	@Column(nullable=false, length=60)
 	private String senha;
 
+	@Transient
+	private Pessoa pessoa;
+	
 	public Usuario() {
+	}
+	
+	public Pessoa getPessoa() {
+		return pessoa;
+	}
+
+	public void setPessoa(Pessoa pessoa) {
+		this.pessoa = pessoa;
+	}
+
+	public static long getSerialversionuid() {
+		return serialVersionUID;
+	}
+
+	public Usuario(String email, String acesso, String senha){
+		this.email 	= email;
+		this.perfilAcesso = acesso;
+		this.senha = senha;
 	}
 
 	public int getId() {

@@ -1,7 +1,9 @@
 package dto;
 
 import java.io.Serializable;
+
 import javax.persistence.*;
+
 import java.util.Date;
 
 
@@ -60,7 +62,39 @@ public class Pessoa implements Serializable {
 	@Column(name="usuario_id", nullable=false)
 	private int usuarioId;
 
+	@Transient
+	private Usuario usuario;
+	
+	public Usuario getUsuario() {
+		return usuario;
+	}
+
+	public void setUsuario(Usuario usuario) {
+		this.usuario = usuario;
+	}
+
+	public static long getSerialversionuid() {
+		return serialVersionUID;
+	}
+
 	public Pessoa() {
+	}
+	
+	public Pessoa(String nome_pai1, String nome_pai2, String nome_mae1, String nome_mae2, String telefone, String genero, 
+			String conjugue, String etnia, String religiao, int deficiencia, int usuario_id, String nome_social){
+		
+		this.nomePai1 = nome_pai1;
+		this.nomePai2 = nome_pai2;
+		this.nomeMae1 = nome_mae1;
+		this.nomeMae2 = nome_mae2;
+		this.telefone = telefone;
+		this.genero = genero;
+		this.conjuge = conjugue;
+		this.etnia = etnia;
+		this.religiao = religiao;
+		this.deficiencia = deficiencia;
+		this.usuarioId = usuario_id;
+		this.nomeSocial =  nome_social;
 	}
 
 	public int getId() {

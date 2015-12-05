@@ -22,6 +22,12 @@ public class AnimalDAO extends HibernateHelper<Animal> implements IDAO<Animal> {
 	}
 	
 	
+	public void update(Animal obj)throws Exception{
+		atualizar(obj);
+	}
+	
+	
+	
 	public ArrayList<String> listRacasMaisAdotadas(String tipo){
 		
 		HashMap<String, Object> args = new HashMap<String, Object>();
@@ -29,10 +35,6 @@ public class AnimalDAO extends HibernateHelper<Animal> implements IDAO<Animal> {
 		//String query_string = "select a.nomeAdotivo, COUNT() from Animal as a " 
 		/// NAO TEM RACA ESSES BIXO TCHE
 		return null;
-			
-		
-		
-		
 	}
 	
 	public ArrayList<Animal> listNaoAdotadosByTipo(String tipo) throws Exception{
@@ -51,7 +53,23 @@ public class AnimalDAO extends HibernateHelper<Animal> implements IDAO<Animal> {
 		
 	}
 	
-	
+	public Animal getAnimal(int animal_id) throws Exception{
+		
+		HashMap<String, Object> args = new HashMap<String, Object>();
+		
+		String query_string = "from Animal as a where a.id = :id"; 
+		
+		args.put("id", animal_id);
+		
+		
+		ArrayList<Animal> animais =  (ArrayList<Animal>) consultar(query_string, args);
+		
+		if(animais.size() > 0)
+			return animais.get(0);
+		
+		
+		return null;
+	}
 
 	public ArrayList<Animal> listByInstituicao(String cnpj, String intituicao_nome) throws Exception {
 		HashMap<String, Object> args = new HashMap<String, Object>();
@@ -73,4 +91,14 @@ public class AnimalDAO extends HibernateHelper<Animal> implements IDAO<Animal> {
 		
 		return  (ArrayList<Animal>) consultar(query_string, args);
 	}
+	
+	
+	public ArrayList<Animal> list(boolean disponivel) throws Exception {
+		int _disp = Boolean.compare(true, disponivel);
+		HashMap<String, Object> args = new HashMap<String, Object>();
+		args.put("disponivel", _disp);
+		String query_string = "from Animal as a where a.disponivelAdocao = :disponivel";
+		return  (ArrayList<Animal>) consultar(query_string, args);
+	}
+	
 }
